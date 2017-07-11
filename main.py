@@ -44,7 +44,7 @@ def uploadPhotos(photos_list, group_id, access_token):
         a = req.post(upload_url, files = data)
         a = json.loads(a.text)
         # print(a)
-        s = callVkApi('photos.saveWallPhoto', access_token = access_token, req_method = 'post', group_id = group_id, photo = a['photo'], server = a['server'], hash = a['hash'])
+        s = callVkApi('photos.saveWallPhoto', access_token, req_method = 'post', group_id = group_id, photo = a['photo'], server = a['server'], hash = a['hash'])
         print(s)
         for i in s:
             uploaded_photos.append(i['id'])
@@ -99,4 +99,3 @@ if __name__ == '__main__':
                 break
             else:
                 continue
-    
