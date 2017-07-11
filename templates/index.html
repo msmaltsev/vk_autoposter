@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PostMe_v0.1</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+ </head>
+<body>
+  <div id="menu_header_background">
+    <div id="header">
+      <h1>PostMe_v0.1</h1>
+    </div>
+  </div>
+  <div id="main_content">
+    <div class="create_post">
+      <form action="/accept_data" method="POST">
+        </br></br>
+        <textarea name="post_text" cols="75" rows="8" placeholder="Введите текст поста"></textarea>
+        </br>
+        <textarea name="access_tokens" cols="75" rows="8" placeholder="Введите access tokens (каждый на новой строке)"></textarea>
+        </br>
+        <textarea name="group_ids_list" cols="75" rows="8" placeholder="Введите id групп без минусов (каждый на новой строке)"></textarea>
+        </br>
+        <input id="post_btn" type="submit" name="my-form" value="Send">
+      </form>
+    </div>
+    </br></br>
+  </div>
+</body>
+</html>
