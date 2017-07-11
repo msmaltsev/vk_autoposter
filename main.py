@@ -12,9 +12,6 @@ import json, datetime, time
 
 app = Flask(__name__, template_folder='templates')
 
-def dummyFunction():
-    print('HOHOHOHOHOHOOOOOHO')
-
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -42,3 +39,4 @@ def accept_data():
 
 if __name__ == "__main__":
     app.run(port=getuid() + 1000)
+    
