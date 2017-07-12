@@ -75,10 +75,12 @@ def makePost(access_token):
     for g in groups:
         print('posting to group %s'%g)
         message = open('post_text.txt', encoding='utf8').read()
-        links = []
+        links = ['http://lenta.ru']
         audios = []
+        videos = ['video-97073460_456239159']
         photos = uploadPhotos(photos_list, g * -1, access_token)
-        attachments = ','.join(links + audios + photos)
+        attachments = ','.join(links + audios + photos + videos)
+        print(attachments)
         a = postOnWall(g, access_token, message = message, attachments = attachments, signed = 0)
         print(a)
 

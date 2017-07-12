@@ -21,14 +21,14 @@ def index():
 def accept_data():
     if request.method == 'POST':
         post_text = request.form['post_text']
-        access_tokens = request.form['access_tokens']
+        # access_tokens = request.form['access_tokens']
         group_ids_list = request.form['group_ids_list']
 
         with open('post_text.txt', 'w', encoding='utf8') as f:
             f.write(post_text)
         
-        with open('access_tokens.txt', 'w', encoding='utf8') as f:
-            f.write(access_tokens)
+        # with open('access_tokens.txt', 'w', encoding='utf8') as f:
+        #     f.write(access_tokens)
 
         with open('group_ids_list.txt', 'w', encoding='utf8') as f:
             f.write(group_ids_list)
