@@ -16,14 +16,14 @@ class Dispatch:
 
 
     def validateDispatch(self, id_):
-        print('dispatch %s'%id_)
+        # print('dispatch %s'%id_)
         wdir_name = os.getcwd() + '/dispatches'
         if str(id_) in os.listdir(wdir_name):
             if 'posts' in os.listdir('%s/%s'%(wdir_name, id_)):
                 # print('posts folder ok')
                 pass
             else:
-                print('creating posts folder')
+                # print('creating posts folder')
                 os.mkdir('%s/%s/posts'%(wdir_name, id_))
             if 'group_id_lists' in os.listdir('%s/%s'%(wdir_name, id_)):
                 # print('group_id_list folder ok')

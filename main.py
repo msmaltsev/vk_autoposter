@@ -69,8 +69,13 @@ def savePost(dispatch_id, post_id):
     if request.method == "POST":
         p = Post(post_id, dispatch_id)
         tx = request.form['text']
+        ln = request.form['link']
+        print('link from page: %s'%ln)
         if tx != '':
             p.addText(tx)
+        if ln != '':
+            p.addLink(ln)
+        print(p.post_data)
     return redirect('/dispatch/%s'%dispatch_id)
 
 
