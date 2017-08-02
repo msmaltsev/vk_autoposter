@@ -44,7 +44,7 @@ class Post:
         else:
             self.id_ = id_
         self.folder = self.validatePost(self.id_, self.dispatch_id)
-        self.post_data = {'id':self.id_, 'dispatch_id':self.dispatch_id, 'photos':[i for i in os.listdir(self.folder + '/photos')], 'text':self.readText(self.folder + '/text.txt'), 'link':self.readText(self.folder + '/link.txt')}
+        self.post_data = {'id':self.id_, 'dispatch_id':self.dispatch_id, 'photos':[i for i in os.listdir(self.folder + '/photos')][:10], 'photos_amount':len([i for i in os.listdir(self.folder + '/photos')]), 'text':self.readText(self.folder + '/text.txt'), 'link':self.readText(self.folder + '/link.txt')}
 
 
     def removePost(self):

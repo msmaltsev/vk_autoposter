@@ -15,6 +15,7 @@ from werkzeug import secure_filename
 
 app = Flask(__name__, template_folder='templates')
 
+
 def renderDispatches():
     disp_dict = {}
     disp_list = os.listdir('dispatches')
@@ -36,6 +37,15 @@ def renderDispatches():
 def index():
     d = renderDispatches()
     return render_template('index.html', dispatches = d)
+
+
+@app.route("/upload_photo/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
+def uploadPhoto(dispatch_id, post_id):
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save('dispatches/%s/posts/%s/photos/'%(dispatch_id, post_id) +  secure_filename(f.filename))
+
+    return redirect('/dispatch/%s'%dispatch_id)
 
 
 @app.route("/remove_dispatch", methods=['GET', 'POST'])
@@ -68,6 +78,7 @@ def displayDispatch(dispatch_id):
 def savePost(dispatch_id, post_id):
     if request.method == "POST":
         p = Post(post_id, dispatch_id)
+        print(p.post_data)
         tx = request.form['text']
         ln = request.form['link']
         print('link from page: %s'%ln)

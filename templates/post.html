@@ -2,21 +2,41 @@
 <div id="main_content">
 <h2>Пост {{ p['id'] }}</h2>
 <form name="save_post" action="/save_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
-    </br><h3>Текст</h3>
-    <textarea name="text" cols="75" rows="8" placeholder="{{ p['text'] }}"></textarea>
+</br><h3>Текст</h3>
+<textarea name="text" cols="75" rows="8" placeholder="{{ p['text'] }}"></textarea>
 
-    </br><h3>Ссылка</h3>
-    <textarea name="link" cols="75" rows="1" placeholder="{{ p['link'] }}"></textarea>
+</br><h3>Ссылка</h3>
+<textarea name="link" cols="75" rows="1" placeholder="{{ p['link'] }}"></textarea>
+<input id="post_btn" type="submit" name="save_post" value="Сохранить пост">
+
+
+</br><h3>Изображения</h3>
+Загружено: {{ p['photos_amount'] }}
+<table>
+{% for photo in p['photos'] %}
+<tr><td>{{ photo }}</td></tr>
+{% endfor %}
+<tr><td>
+</br>
+</form>
+</td></tr>
+</table>
+</br>
 
 <table><tr><td>
-    <input id="post_btn" type="submit" name="save_post" value="Сохранить пост">
+    <form enctype="multipart/form-data" action="/upload_photo/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+<input type="file" name="file">
+<input id="post_btn" type="submit" name="upload_file" value="Загрузить">
+</form>
+</td></tr><tr><td></br>
+
 </form></td><td>
 <form action="/remove_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
-    <input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
+<input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
 </form>
 </td><td>
 <form action="/send_test_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
-    <input id="post_btn" type="submit" name="send_test_post" value="Тест">
+<input id="post_btn" type="submit" name="send_test_post" value="Тест">
 </form>
 </td></tr></table>
 </div>
