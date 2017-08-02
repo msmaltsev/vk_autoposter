@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PostMe_v0.3 - Меню рассылки</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+ </head>
+<body>
+  <div id="menu_header_background">
+    <div id="header">
+      <h1>PostMe_v0.3</h1>
+    </div>
+  </div>
+
+
+
+<div id="main_content">
+    <a href='/'>На страницу рассылок</a>
+
+    <h1>Рассылка {{ dispatch_id }}</h1>
+    </br>
+
+    <table><tr><td>
+    <form name="send_dispatch" action="/send_dispatch/{{ dispatch_id }}" method="POST">
+    <!-- <select required name="group_ids_list" form="send_dispatch">
+        <option selected disabled value="">Список аккаунтов для рассылки</option>
+        {% for g in group_ids_lists %}
+            <option value="{{ g }}">{{ g }}</option>
+        {% endfor %}
+    </select> -->
+    <input type="hidden" name="send_dispatch"/>
+    <input id="post_btn" type="submit" value="Отправить рассылку" />
+    </form>
+    </td><td>
+    <form action="/add_post/{{ dispatch_id }}" method="POST">
+    <input type="hidden" name="add_post"/>
+    <input id="post_btn" type="submit" value="Новый пост" /></form>
+    </td></tr></table>
+    </br>
+    {% include 'post.html' %}
+
+</div>
+
+</body>
+</html>

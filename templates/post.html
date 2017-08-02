@@ -1,0 +1,21 @@
+{% for p in d %}
+<div id="main_content">
+<h2>Пост {{ p['id'] }}</h2>
+<form name="save_post" action="/save_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+    </br><h3>Текст</h3>
+    <textarea name="text" cols="75" rows="8" placeholder="{{ p['text'] }}"></textarea>
+
+<table><tr><td>
+    <input id="post_btn" type="submit" name="save_post" value="Сохранить пост">
+</form></td><td>
+<form action="/remove_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+    <input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
+</form>
+</td><td>
+<form action="/send_test_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+    <input id="post_btn" type="submit" name="send_test_post" value="Тест">
+</form>
+</td></tr></table>
+</div>
+<hr>
+{% endfor %}
