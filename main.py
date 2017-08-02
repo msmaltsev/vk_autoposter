@@ -39,6 +39,14 @@ def index():
     return render_template('index.html', dispatches = d)
 
 
+@app.route("/upload_group_ids_list/<dispatch_id>", methods=['GET', 'POST'])
+def uploadGroupIdsList(dispatch_id):
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save('group_ids_list.txt')
+    return redirect('/dispatch/%s'%dispatch_id)
+
+
 @app.route("/upload_photo/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
 def uploadPhoto(dispatch_id, post_id):
     if request.method == 'POST':

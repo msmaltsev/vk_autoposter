@@ -17,6 +17,13 @@
 <div id="main_content">
     <a href='/'>На страницу рассылок</a>
 
+
+<form action="/upload_group_ids_list/{{ dispatch_id }}"  enctype="multipart/form-data" method="POST">
+<input type="file" name="file">
+<input id="post_btn" type="submit" name="upload_group_ids_list" value="Загрузить список групп">
+</form>
+</br></br><hr></br>
+
     <h1>Рассылка {{ dispatch_id }}</h1>
     </br>
 

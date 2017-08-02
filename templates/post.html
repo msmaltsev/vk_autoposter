@@ -7,10 +7,10 @@
 
 </br><h3>Ссылка</h3>
 <textarea name="link" cols="75" rows="1" placeholder="{{ p['link'] }}"></textarea>
-<input id="post_btn" type="submit" name="save_post" value="Сохранить пост">
+<input id="post_btn" type="submit" name="save_post" value="Сохранить тексты">
 
 
-</br><h3>Изображения</h3>
+</br></br><h3>Изображения</h3>
 Загружено: {{ p['photos_amount'] }}
 <table>
 {% for photo in p['photos'] %}
@@ -26,11 +26,9 @@
 <table><tr><td>
     <form enctype="multipart/form-data" action="/upload_photo/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
 <input type="file" name="file">
-<input id="post_btn" type="submit" name="upload_file" value="Загрузить">
+<input id="post_btn" type="submit" name="upload_photo" value="Загрузить">
 </form>
-</td></tr><tr><td></br>
-
-</form></td><td>
+</td></tr><tr><td>
 <form action="/remove_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
 <input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
 </form>
