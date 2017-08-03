@@ -17,18 +17,17 @@
 <tr><td>{{ photo }}</td></tr>
 {% endfor %}
 <tr><td>
-</br>
 </form>
 </td></tr>
 </table>
-</br>
 
-<table><tr><td>
-    <form enctype="multipart/form-data" action="/upload_photo/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+
+<form enctype="multipart/form-data" action="/upload_photo/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
 <input type="file" name="file">
 <input id="post_btn" type="submit" name="upload_photo" value="Загрузить">
 </form>
-</td></tr><tr><td>
+</br>
+<table><tr><td>
 <form action="/remove_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
 <input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
 </form>

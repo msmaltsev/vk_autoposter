@@ -24,7 +24,7 @@ def vk_callRequest(request, req_method):
 
 def callVkApi(method, access_token, req_method = 'get', **kwargs):
     request = vk_makeRequest(method, access_token, **kwargs)
-    print(req_method.upper(), request)
+    # print(req_method.upper(), request)
     response = vk_callRequest(request, req_method)
     try:
         response = response['response']

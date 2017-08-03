@@ -22,7 +22,11 @@
 <input type="file" name="file">
 <input id="post_btn" type="submit" name="upload_group_ids_list" value="Загрузить список групп">
 </form>
-</br></br><hr></br>
+</br>
+{% for gid in group_ids_list %}
+    {{ gid }}</br>
+{% endfor %}
+</br><hr></br>
 
     <h1>Рассылка {{ dispatch_id }}</h1>
     </br>

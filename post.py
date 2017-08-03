@@ -25,7 +25,8 @@ class Post:
         wdir_name = os.getcwd() + '/dispatches/%s/posts/%s'%(dispatch_id, id_)
         if str(id_) in os.listdir(os.getcwd() + '/dispatches/%s/posts'%dispatch_id):
             if 'photos' in os.listdir(wdir_name):
-                print('photos folder ok')
+                # print('photos folder ok')
+                pass
             else:
                 # print('photos not found in %s'%wdir_name)
                 os.mkdir(wdir_name + '/photos')

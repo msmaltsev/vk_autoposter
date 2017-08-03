@@ -37,23 +37,22 @@ def loadListFromFile(f = 'group_ids_list.txt'):
     return a
 
 
-def sendPost(access_token, post_dict, groups_list):
+def sendPost(access_token, post_dict, group):
+    print('sendPost function working now')
     photos_list = post_dict['photos']
     print(photos_list)
     if len(photos_list) > 6:
         photos_list = photos_list[:5]
         print('too much photos; only first 6 will be uploaded!')
     print('photos to upload: %s'%len(photos_list))
-    groups = groups_list
-    for g in groups:
-        print('posting to group %s'%g)
-        message = post_dict['text']
-        photos = uploadPhotos(photos_list, g * -1, access_token)
-        attachments = ','.join(photos)
-        print(attachments)
-        a = postOnWall(g, access_token, message = message, attachments = attachments, signed = 0)
-        time.sleep(0.33333333)
-        print(a)
+    print('posting to group %s'%group)
+    message = post_dict['text']
+    photos = uploadPhotos(photos_list, group * -1, access_token)
+    attachments = ','.join(photos)
+    print(attachments)
+    a = postOnWall(group, access_token, message = message, attachments = attachments, signed = 0)
+    time.sleep(0.33333333)
+    print(a)
     
     
 if __name__ == '__main__':

@@ -76,10 +76,14 @@ def addDispatch():
 
 @app.route("/dispatch/<dispatch_id>", methods=['GET', 'POST'])
 def displayDispatch(dispatch_id):
-    group_ids_lists = os.listdir('group_ids_lists')
+    # group_ids_lists = os.listdir('group_ids_lists')
+    try:
+        group_ids_list = loadListFromFile('group_ids_list.txt')
+    except:
+        group_ids_list = []
     d = renderDispatches()
     d = d[dispatch_id]
-    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d, group_ids_lists = group_ids_lists)
+    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d, group_ids_list = group_ids_list)
 
 
 @app.route("/save_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
@@ -134,21 +138,24 @@ def sendDispatch(dispatch_id):
         for i in os.listdir('dispatches/%s/posts'%dispatch_id):
             p = Post(i, dispatch_id)
             p = p.post_data
-            available_posts.append(p)
-        
+            if p['id'] != '0':
+                available_posts.append(p)
+        print('available_posts', available_posts)
 
-        # group_ids_list = request.form['group_ids_list']
-        group_ids_list = 'group_ids_lists/group_ids_list.txt'
-        group_ids_list = loadListFromFile(group_ids_list)
+
+        group_ids_list = loadListFromFile('group_ids_list.txt')
         access_tokens = loadListFromFile('access_tokens.txt')
 
         for a in range(len(access_tokens)):
             access_token = access_tokens[a]
             print('access_token: %s'%access_token)
             try:
-                sendPost(access_token, random.choice(available_posts), group_ids_list)
+                for g in group_ids_list:
+                    post_to_send = random.choice(available_posts)
+                    print('post %s will be sent to group d%s'%(post_to_send, g))
+                    sendPost(access_token, post_to_send, g)
             except Exception as e:
-                print(e)
+                print('cant send due to ', e)
                 if a == len(access_tokens):
                     print('no more access_tokens')
                     break
