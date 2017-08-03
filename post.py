@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import os, shutil
+import requests as req
 
 class Post:
     def availableId(self, dispatch_id):
@@ -59,7 +60,17 @@ class Post:
         f.close()
         print('text %s added to post %s from dispatch %s'%(text, self.id_, self.dispatch_id))
 
+
+    def validateLink(self, link):
+        try:
+            r = req.get(link)
+            return link
+        except:
+            return 'http://' + link
+
+
     def addLink(self, link):
+        link = self.validateLink(link)
         f = open(os.getcwd() + '/dispatches/%s/posts/%s/link.txt'%(self.dispatch_id, self.id_), 'w', encoding='utf8')
         f.write(link)
         f.close()

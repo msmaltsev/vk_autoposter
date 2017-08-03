@@ -83,7 +83,8 @@ def displayDispatch(dispatch_id):
         group_ids_list = []
     d = renderDispatches()
     d = d[dispatch_id]
-    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d, group_ids_list = group_ids_list)
+    print(d)
+    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d, group_ids_list = group_ids_list, posts_am=len(d))
 
 
 @app.route("/save_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
@@ -124,8 +125,8 @@ def sendTestPost(dispatch_id, post_id):
         p = p.post_data
         print(p)
         access_tokens = loadListFromFile('access_tokens.txt')
-        group_ids_list = ['-150121997']
-        sendPost(random.choice(access_tokens), p, group_ids_list)
+        g = '-150121997'
+        sendPost(random.choice(access_tokens), p, g)
 
     return redirect('/dispatch/%s'%dispatch_id)
 

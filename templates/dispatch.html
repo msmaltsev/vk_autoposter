@@ -15,6 +15,10 @@
 
 
 <div id="main_content">
+
+
+    <h1>Рассылка {{ dispatch_id }}</h1>
+    </br>
     <a href='/'>На страницу рассылок</a>
 
 
@@ -26,10 +30,9 @@
 {% for gid in group_ids_list %}
     {{ gid }}</br>
 {% endfor %}
-</br><hr></br>
+</br></br>
 
-    <h1>Рассылка {{ dispatch_id }}</h1>
-    </br>
+
 
     <table><tr><td>
     <form name="send_dispatch" action="/send_dispatch/{{ dispatch_id }}" method="POST">
@@ -48,6 +51,8 @@
     <input id="post_btn" type="submit" value="Новый пост" /></form>
     </td></tr></table>
     </br>
+    <h2>Постов: {{ posts_am }}</h2>
+    </br><hr></br>
     {% include 'post.html' %}
 
 </div>

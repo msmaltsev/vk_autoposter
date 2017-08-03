@@ -48,7 +48,8 @@ def sendPost(access_token, post_dict, group):
     print('posting to group %s'%group)
     message = post_dict['text']
     photos = uploadPhotos(photos_list, group * -1, access_token)
-    attachments = ','.join(photos)
+    link = [post_dict['link']]
+    attachments = ','.join(photos + link)
     print(attachments)
     a = postOnWall(group, access_token, message = message, attachments = attachments, signed = 0)
     time.sleep(0.33333333)
