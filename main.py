@@ -10,7 +10,7 @@ from post import Post
 from sendDispatch import *
 
 from flask import Flask, render_template, request, redirect
-import json, datetime, time, random, os, shutil
+import json, datetime, time, random, os, shutil, sys
 from werkzeug import secure_filename
 app = Flask(__name__, template_folder='templates')
 
@@ -42,6 +42,20 @@ def renderDispatches():
         disp_dict[i] = [d_interval] + disp_dict[i]
     print(disp_dict)
     return disp_dict
+
+
+def sleepTime(sltime):
+    int_ = int(round(sltime, 0))
+    rmng = sltime - int_
+    while int_ != 0:
+        time.sleep(1)
+        sys.stdout.write('\rsleeping: %s seconds remaining'%int_)
+        sys.stdout.flush()
+        int_ -= 1
+    sys.stdout.write('\rsleeping: %s seconds remaining'%rmng)
+    sys.stdout.flush()
+    time.sleep(rmng)
+    print('\rslept for %s seconds. waking up now.'%sltime)
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -191,7 +205,7 @@ def sendDispatch(dispatch_id):
 
         interval = open('%s/dispatches/%s/delay.txt'%(os.getcwd(), dispatch_id)).read().split('\n')[0]
         interval = float(interval)
-        print(interval)
+        # print(interval)
 
 
         group_ids_list = loadListFromFile('group_ids_list.txt')
@@ -205,6 +219,7 @@ def sendDispatch(dispatch_id):
                     post_to_send = random.choice(available_posts)
                     print('post %s will be sent to group d%s'%(post_to_send, g))
                     sendPost(access_token, post_to_send, g, interval)
+                    sleepTime(interval)
             except Exception as e:
                 print('cant send due to ', e)
                 if a == len(access_tokens):

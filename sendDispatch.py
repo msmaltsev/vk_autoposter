@@ -52,8 +52,8 @@ def sendPost(access_token, post_dict, group, interval = 0.33333333):
     attachments = ','.join(photos + link)
     # print(attachments)
     a = postOnWall(group, access_token, message = message, attachments = attachments, signed = 0)
-    print('sleeping %s seconds...'%interval)
-    time.sleep(interval)
+    # print('sleeping %s seconds...'%interval)
+    # time.sleep(interval)
     # print(a)
     
     
