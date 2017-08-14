@@ -28,6 +28,10 @@
 </form>
 </br>
 <table><tr><td>
+<form action="/copy_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
+<input id="post_btn" type="submit" name="copy_post" value="Дублировать пост">
+</form>
+</td><td>
 <form action="/remove_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">
 <input id="post_btn" type="submit" name="remove_post" value="Удалить пост">
 </form>

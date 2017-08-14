@@ -10,15 +10,20 @@ from post import Post
 from sendDispatch import *
 
 from flask import Flask, render_template, request, redirect
-import json, datetime, time, random, os
+import json, datetime, time, random, os, shutil
 from werkzeug import secure_filename
-
 app = Flask(__name__, template_folder='templates')
 
 
 def renderDispatches():
     disp_dict = {}
-    disp_list = os.listdir('dispatches')
+    try:
+        disp_list = os.listdir(os.getcwd() + '/dispatches')
+    except Exception as e:
+        print(e)
+        print('creating dispatches directory...')
+        os.mkdir(os.getcwd() + '/dispatches')
+        disp_list = os.listdir(os.getcwd() + '/dispatches')
     if disp_list == []:
         d = Dispatch(0)
         disp_list = os.listdir('dispatches')
@@ -101,7 +106,7 @@ def savePost(dispatch_id, post_id):
         print(p.post_data)
         tx = request.form['text']
         ln = request.form['link']
-        print('link from page: %s'%ln)
+        # print('link from page: %s'%ln)
         if tx != '':
             p.addText(tx)
         if ln != '':
@@ -115,6 +120,21 @@ def addPost(dispatch_id):
     if request.method == "POST":
         p = Post(0, dispatch_id)
     return redirect('/dispatch/%s'%dispatch_id)
+
+
+@app.route("/copy_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
+def copyPost(dispatch_id, post_id):
+    if request.method == "POST":
+        old_post = Post(post_id, dispatch_id)
+        d = old_post.post_data
+        print(d)
+        new_post = Post(0, dispatch_id)
+        new_post.addText(d['text'])
+        new_post.addLink(d['link'])
+        for photo in d['photos']:
+            shutil.copy(photo, new_post.folder + '/photos')
+    return redirect('/dispatch/%s'%dispatch_id)
+
 
 
 @app.route("/remove_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])

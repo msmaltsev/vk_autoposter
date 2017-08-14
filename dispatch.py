@@ -29,19 +29,20 @@ class Dispatch:
                 # print('group_id_list folder ok')
                 pass
             else:
-                print('creating group_id_lists folder')
+                # print('creating group_id_lists folder')
                 os.mkdir('%s/%s/group_id_lists'%(wdir_name, id_))
             if 'delay.txt' in os.listdir('%s/%s'%(wdir_name, id_)):
-                print('delay.txt ok')
+                # print('delay.txt ok')
+                pass
             else:
-                print('creating delay.txt')
+                # print('creating delay.txt')
                 df = open('%s/%s/delay.txt'%(wdir_name, id_))
                 df.write('10.0')
                 df.close()
         else:
-            print('creatig dispatch with id %s'%(id_))
+            # print('creatig dispatch with id %s'%(id_))
             os.mkdir('%s/%s'%(wdir_name, id_))
-            print('creating posts folder in dispatch %s'%id_)
+            # print('creating posts folder in dispatch %s'%id_)
             os.mkdir('%s/%s/posts'%(wdir_name, id_))
             # print('creating group_id_lists folder in dispatch %s'%id_)
             # os.mkdir('%s/%s/group_id_lists'%(wdir_name, id_))
@@ -60,17 +61,13 @@ class Dispatch:
         self.delay_file = '%s/dispatches/%s/delay.txt'%(os.getcwd(), self.id_)
         try:
             self.interval = open(self.delay_file,  'r', encoding='utf8').read().split('\n')[0]
-            print(self.interval, type(self.interval))
             self.interval = float(self.interval)
-            print(self.interval, type(self.interval))
         except Exception as e:
-            print('could not set interval: %s'%e)
             f = open(self.delay_file, 'w', encoding='utf8')
-            f.write('0.3333333')
+            f.write('10')
             f.close()
             self.interval = open(self.delay_file,  'r', encoding='utf8').read().split('\n')[0]
             self.interval = float(self.interval)
-            print(self.interval, type(self.interval))
 
 
     def removeDispatch(self):
