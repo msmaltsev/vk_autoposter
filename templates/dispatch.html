@@ -21,7 +21,13 @@
     </br>
     <a href='/'>На страницу рассылок</a>
 
+<form action="/set_interval/{{ dispatch_id }}"  method="POST">
+Задать интервал рассылки постов (в секундах)
+<textarea name="interval" cols="10" rows="1" placeholder="{{ interval }}" style="resize:none"></textarea>
+<input id="post_btn" type="submit" name="set_interval" value="Задать">
+</form>
 
+</br>
 <form action="/upload_group_ids_list/{{ dispatch_id }}"  enctype="multipart/form-data" method="POST">
 <input type="file" name="file">
 <input id="post_btn" type="submit" name="upload_group_ids_list" value="Загрузить список групп">
@@ -36,12 +42,6 @@
 
     <table><tr><td>
     <form name="send_dispatch" action="/send_dispatch/{{ dispatch_id }}" method="POST">
-    <!-- <select required name="group_ids_list" form="send_dispatch">
-        <option selected disabled value="">Список аккаунтов для рассылки</option>
-        {% for g in group_ids_lists %}
-            <option value="{{ g }}">{{ g }}</option>
-        {% endfor %}
-    </select> -->
     <input type="hidden" name="send_dispatch"/>
     <input id="post_btn" type="submit" value="Отправить рассылку" />
     </form>

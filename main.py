@@ -19,17 +19,23 @@ app = Flask(__name__, template_folder='templates')
 def renderDispatches():
     disp_dict = {}
     disp_list = os.listdir('dispatches')
+    if disp_list == []:
+        d = Dispatch(0)
+        disp_list = os.listdir('dispatches')
     disp_list = [i for i in disp_list if i not in  ['0', 0]]
     for i in disp_list:
         disp_dict[i] = []
         d = Dispatch(i)
         d_id = d.id_
+        d_interval = d.interval
         post_list = os.listdir('dispatches/%s/posts'%d_id)
         post_list = [i for i in post_list if i not in  ['0', 0]]
         for p in post_list:
             p = Post(p, d_id)
             p = p.post_data
             disp_dict[i].append(p)
+        disp_dict[i] = [d_interval] + disp_dict[i]
+    print(disp_dict)
     return disp_dict
 
 
@@ -76,15 +82,16 @@ def addDispatch():
 
 @app.route("/dispatch/<dispatch_id>", methods=['GET', 'POST'])
 def displayDispatch(dispatch_id):
-    # group_ids_lists = os.listdir('group_ids_lists')
-    try:
-        group_ids_list = loadListFromFile('group_ids_list.txt')
-    except:
-        group_ids_list = []
     d = renderDispatches()
     d = d[dispatch_id]
-    print(d)
-    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d, group_ids_list = group_ids_list, posts_am=len(d))
+    interval, d = d[0], d[1:]
+    group_ids_list = open('group_ids_list.txt', 'r', encoding='utf8').read().split('\n')
+    # print(d)
+    if type(interval) is not float:
+        return render_template('dispatch.html', dispatch_id = dispatch_id, d = d,posts_am=len(d), interval = interval, group_ids_list = group_ids_list)
+    else:
+        print(d)
+        return render_template('dispatch.html', dispatch_id = dispatch_id, d = d,posts_am=len(d), interval = interval, group_ids_list = group_ids_list)
 
 
 @app.route("/save_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
@@ -126,8 +133,26 @@ def sendTestPost(dispatch_id, post_id):
         print(p)
         access_tokens = loadListFromFile('access_tokens.txt')
         g = '-150121997'
-        sendPost(random.choice(access_tokens), p, g)
+        sendPost(random.choice(access_tokens), p, g, interval = 0.333333)
 
+    return redirect('/dispatch/%s'%dispatch_id)
+
+
+@app.route("/set_interval/<dispatch_id>", methods=['GET', 'POST'])
+def setInterval(dispatch_id):
+    interval = request.form['interval']
+    try:
+        interval = float(interval)
+        print('interval from form: %s'%interval)
+        print(type(interval), interval)
+        if interval < 0.3333333:
+            interval = 0.3333333
+        f = open('dispatches/%s/delay.txt'%dispatch_id, 'w', encoding='utf8')
+        # f.write(interval)
+        print(interval, file=f)
+        f.close()
+    except:
+        pass
     return redirect('/dispatch/%s'%dispatch_id)
 
 
@@ -144,6 +169,11 @@ def sendDispatch(dispatch_id):
         print('available_posts', available_posts)
 
 
+        interval = open('%s/dispatches/%s/delay.txt'%(os.getcwd(), dispatch_id)).read().split('\n')[0]
+        interval = float(interval)
+        print(interval)
+
+
         group_ids_list = loadListFromFile('group_ids_list.txt')
         access_tokens = loadListFromFile('access_tokens.txt')
 
@@ -154,7 +184,7 @@ def sendDispatch(dispatch_id):
                 for g in group_ids_list:
                     post_to_send = random.choice(available_posts)
                     print('post %s will be sent to group d%s'%(post_to_send, g))
-                    sendPost(access_token, post_to_send, g)
+                    sendPost(access_token, post_to_send, g, interval)
             except Exception as e:
                 print('cant send due to ', e)
                 if a == len(access_tokens):
