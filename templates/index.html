@@ -8,21 +8,35 @@
 <body>
   <div id="menu_header_background">
     <div id="header">
-      <h1>PostMe_v0.3</h1>
+      <h1><a href="/">PostMe_v0.3</a></h1>
     </div>
   </div>
 
 
 
+
+
   <div id="main_content">
-    <h1>Доступные рассылки</h1></br></br>
+
+</br>
+  <h2>Доступно access_tokens: {{ lat }}</h2>
+  <p color="r"><b>{{ lat_warning }}</b></p>
+<form action="/upload_access_tokens_list"  enctype="multipart/form-data" method="POST">
+<input type="file" name="file">
+<input id="post_btn" type="submit" name="upload_access_tokens_list" value="Загрузить access_tokens">
+</form>
+
+<hr>
+</br>
+
+    <h1>Доступные рассылки</h1></br>
     <form action="/add_dispatch" method="POST">
         <input type="hidden" name="add_dispatch"/>
         <input id="post_btn" type="submit" value="Создать рассылку" />
-    </form></br></br>
+    </form></br>
     <div id="dispatch" class="dispatch">
         {% for d in dispatches %}
-        </br><h2>Рассылка {{ d }}</h2></br>
+        </br><h2><a href="/dispatch/{{ d }}">Рассылка {{ d }}</a></h2></br>
         <table><tr><td>
         <form action="/dispatch/{{ d }}" method="POST">  
           <input type="hidden" name="add_post" value="{{ d }}"/>

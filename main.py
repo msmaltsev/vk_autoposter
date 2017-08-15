@@ -61,7 +61,16 @@ def sleepTime(sltime):
 @app.route("/", methods=['GET', 'POST'])
 def index():
     d = renderDispatches()
-    return render_template('index.html', dispatches = d)
+    try:
+        access_tokens = loadListFromFile('access_tokens.txt')
+        lat = len(access_tokens)
+    except:
+        lat = 0
+    if lat:
+        lat_warning = ''
+    else:
+        lat_warning = 'Внимание! Нет access_tokens'
+    return render_template('index.html', dispatches = d, lat = lat, lat_warning = lat_warning)
 
 
 @app.route("/upload_group_ids_list/<dispatch_id>", methods=['GET', 'POST'])
@@ -70,6 +79,14 @@ def uploadGroupIdsList(dispatch_id):
         f = request.files['file']
         f.save('group_ids_list.txt')
     return redirect('/dispatch/%s'%dispatch_id)
+
+
+@app.route("/upload_access_tokens_list", methods=['GET', 'POST'])
+def uploadAccessTokensList():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save('access_tokens.txt')
+    return redirect('/')
 
 
 @app.route("/upload_photo/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
