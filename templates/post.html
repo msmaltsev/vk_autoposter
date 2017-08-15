@@ -1,4 +1,5 @@
 {% for p in d %}
+
 <div id="main_content">
 <h2>Пост {{ p['id'] }}</h2>
 <form name="save_post" action="/save_post/{{ p['dispatch_id'] }}/{{ p['id'] }}" method="POST">

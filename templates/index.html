@@ -6,25 +6,24 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
  </head>
 <body>
-  <div id="menu_header_background">
-    <div id="header">
-      <h1><a href="/">PostMe_v0.3</a></h1>
-    </div>
-  </div>
+{% include 'header.html' %}
 
 
 
-
-
+{% if lat != 0 %}
   <div id="main_content">
 
 </br>
-  <h2>Доступно access_tokens: {{ lat }}</h2>
-  <p color="r"><b>{{ lat_warning }}</b></p>
+  <h2>Доступно access_tokens: {{ lat }}</h2></br>
 <form action="/upload_access_tokens_list"  enctype="multipart/form-data" method="POST">
 <input type="file" name="file">
-<input id="post_btn" type="submit" name="upload_access_tokens_list" value="Загрузить access_tokens">
-</form>
+<input id="post_btn" type="submit" name="upload_access_tokens_list" value="Загрузить новый список access_tokens">
+</form></br>
+
+<form action="/remove_access_tokens" method="POST">
+        <input type="hidden" name="remove_access_tokens"/>
+        <input id="post_btn" type="submit" value="Удалить ВСЕ access_tokens" />
+    </form></br>
 
 <hr>
 </br>
@@ -53,5 +52,18 @@
           
     </div>
   </div>
+
+
+{% else %}
+<div id="main_content">
+<h2>Доступно access_tokens: {{ lat }}</h2></br>
+<h2><b><font color="red">Внимание! Без списка access_tokens работать ничего не будет!</font></b></h2>
+</br>
+<form action="/upload_access_tokens_list"  enctype="multipart/form-data" method="POST">
+<input type="file" name="file">
+<input id="post_btn" type="submit" name="upload_access_tokens_list" value="Загрузить access_tokens">
+</form>
+</div>
+{% endif %}
 </body>
 </html>

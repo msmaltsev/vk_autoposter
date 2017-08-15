@@ -66,11 +66,7 @@ def index():
         lat = len(access_tokens)
     except:
         lat = 0
-    if lat:
-        lat_warning = ''
-    else:
-        lat_warning = 'Внимание! Нет access_tokens'
-    return render_template('index.html', dispatches = d, lat = lat, lat_warning = lat_warning)
+    return render_template('index.html', dispatches = d, lat = lat)
 
 
 @app.route("/upload_group_ids_list/<dispatch_id>", methods=['GET', 'POST'])
@@ -79,6 +75,22 @@ def uploadGroupIdsList(dispatch_id):
         f = request.files['file']
         f.save('group_ids_list.txt')
     return redirect('/dispatch/%s'%dispatch_id)
+
+
+@app.route("/remove_group_ids_list/<dispatch_id>", methods=['GET', 'POST'])
+def removeGroupIdsList(dispatch_id):
+    if request.method == 'POST':
+        f = open('group_ids_list.txt', 'w', encoding='utf8')
+        f.close()
+    return redirect('/dispatch/%s'%dispatch_id)
+
+
+@app.route("/remove_access_tokens", methods=['GET', 'POST'])
+def removeAccessTokensList():
+    if request.method == 'POST':
+        f = open('access_tokens.txt', 'w', encoding='utf8')
+        f.close()
+    return redirect('/')
 
 
 @app.route("/upload_access_tokens_list", methods=['GET', 'POST'])
@@ -121,13 +133,9 @@ def displayDispatch(dispatch_id):
     d = renderDispatches()
     d = d[dispatch_id]
     interval, d = d[0], d[1:]
-    group_ids_list = open('group_ids_list.txt', 'r', encoding='utf8').read().split('\n')
-    # print(d)
-    if type(interval) is not float:
-        return render_template('dispatch.html', dispatch_id = dispatch_id, d = d,posts_am=len(d), interval = interval, group_ids_list = group_ids_list)
-    else:
-        print(d)
-        return render_template('dispatch.html', dispatch_id = dispatch_id, d = d,posts_am=len(d), interval = interval, group_ids_list = group_ids_list)
+    group_ids_list = loadListFromFile('group_ids_list.txt')
+    gidlist = ['https://vk.com/public'+i.replace('-', '') for i in group_ids_list]
+    return render_template('dispatch.html', dispatch_id = dispatch_id, d = d,posts_am=len(d), interval = interval, group_ids_list = group_ids_list, gidlist = gidlist)
 
 
 @app.route("/save_post/<dispatch_id>/<post_id>", methods=['GET', 'POST'])
@@ -192,6 +200,7 @@ def sendTestPost(dispatch_id, post_id):
 @app.route("/set_interval/<dispatch_id>", methods=['GET', 'POST'])
 def setInterval(dispatch_id):
     interval = request.form['interval']
+    interval = interval.replace(',', '.')
     try:
         interval = float(interval)
         print('interval from form: %s'%interval)
